@@ -2,7 +2,11 @@ package Runs;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -31,32 +35,25 @@ public class CollectData {
 		
 		//Scraps Donald's 100 Twittes data 
 		ResultsPage rp = new ResultsPage(driver);
-		rp.getResultsLinesData();
-		
-		//Prints Scraped HashTags && Mentioneds to JSON
+//		rp.getResultsLinesData();
 		
 		
-		//driver.close();
+		List<List<String>> totalResults = rp.getResultsLinesData();
+		//totalResults.addAll();
 		
-		
-/*		JsonAction ja = new JsonAction();
-		ResultsPage rp = new ResultsPage(driver);
-		String ts = new SimpleDateFormat("dd.MM.yyyy_HH.mm.ss").format(new Date());
+		System.out.println("HashTags List:  ");
+		int mainArraySize = totalResults.size();
+		for(int a=0; a< mainArraySize; a++) {
+//			rp.getResultsLinesData().get(a);
 
-		// Loop for 5 result pages and write them to json
-		for (int a = 1; a < 6; a++) {
-			for (int i = 1; i < 11; i++) {
-
-				try {
-					ja.collectForJSON(rp.getTitleValues(i), rp.getDescriptionValues(i), rp.getTagsValues(i),
-							rp.getTimeValues(i), rp.getLangValues(i), rp.getStarsValues(i), ts);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			int currentArraySize = totalResults.get(a).size();
+			for (int b=0; b<currentArraySize; b++) {
+				if(totalResults.get(a).get(b) != null)
+					System.out.println(totalResults.get(a).get(b));
 			}
-			rp.nextResultPageClick();
+			System.out.println("\n" + "Mentioneds List:  ");
 		}
-		driver.close();*/
+
+		driver.close();
 	}
 }

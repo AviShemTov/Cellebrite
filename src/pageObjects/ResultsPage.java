@@ -1,7 +1,9 @@
 package pageObjects;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -14,14 +16,15 @@ public class ResultsPage extends BasePage {
 	WebElement resultLine;
 	int i = 1;
 	JsonAction ja = new JsonAction();
-	List<String> linesData = new ArrayList<>();
+	List<String> totalHashTags = new ArrayList<>();
+	List<String> totalMentioneds = new ArrayList<>();
 	
 	public ResultsPage(WebDriver driver) {
 		super(driver);
 
 	}
 
-	public List<String> getResultsLinesData() {
+	public List<List<String>> getResultsLinesData() {
 		for (i = 1; i <= 100; i++) {
 			String xPath = ".//*[@id='stream-items-id']/li[" + i + "]/div[1]/div[2]/div[2]/p";
 			try {
@@ -32,15 +35,19 @@ public class ResultsPage extends BasePage {
 			//System.out.println(i + ":  " + resultLine.getText());
 			
 			
+			
 			//If the result line we scraped has # in it, we will call the method to take it's text and print it as Hash Tags.
 			if (contains(resultLine.getText(), '#') == true) {
-				ja.collectForJSON(getHashTagsList(i), "hashTags: ");
+				List<String> values = getHashTagsList(i);
+				totalHashTags.addAll(values);
+//				ja.collectForJSON(getHashTagsList(i), "hashTags: ");
 //				getHashTagsList(i);
 			}
 			
 			//If the result line we scraped has @ in it, we will call the method to take it's text and print it as Mentions.
 			if (contains(resultLine.getText(), '@') == true) {
-				ja.collectForJSON(getMentionsList(i), "Mentioneds: ");
+				totalMentioneds.addAll(getMentionsList(i));
+//				ja.collectForJSON(getMentionsList(i), "Mentioneds: ");
 //				getMentionsList(i);
 			}
 			
@@ -57,7 +64,12 @@ public class ResultsPage extends BasePage {
 				}
 			}
 		}
-		return linesData;
+
+		      List<List<String>> result = new ArrayList<List<String>>();
+		      result.add(totalHashTags);
+		      result.add(totalMentioneds);
+
+		      return result;
 	}
 	
 	public boolean contains(String str, char chr) {
@@ -74,7 +86,7 @@ public class ResultsPage extends BasePage {
 		//System.out.println(mentions.size());
 
 		for (WebElement mention : mentions) {
-			System.out.println("Mention: @" + mention.getText());
+//			System.out.println("Mention: @" + mention.getText());
 			mentionsList.add(mention.getText());
 		}
 		return mentionsList;
@@ -90,7 +102,7 @@ public class ResultsPage extends BasePage {
 		//System.out.println(hashTags.size());
 
 		for (WebElement hashTag : hashTags) {
-			System.out.println("HashTag: #" + hashTag.getText());
+//			System.out.println("HashTag: #" + hashTag.getText());
 			hashTagsList.add(hashTag.getText());
 		}
 		return hashTagsList;
