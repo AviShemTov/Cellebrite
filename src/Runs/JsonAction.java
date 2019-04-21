@@ -22,26 +22,31 @@ import pageObjects.BasePage;
 
 public class JsonAction {
 
-	public void collectForJSON(String title, String description, List<String> tags, String time, String lang,
-			String stars, String ts) throws IOException {
+	public void collectForJSON(List<String> list, String header) {
+
+//		JSONObject hashTagsObj = new JSONObject();
+//		JSONObject mentionedsObj = new JSONObject();
+		JSONObject obj = new JSONObject();
 
 		// Getting data ready for the Writing method
-		JSONObject obj = new JSONObject();
-		obj.put("Title", title);
-		obj.put("Description", description);
-		obj.put("Time", time);
-		obj.put("Lang", lang);
-		obj.put("Stars", stars);
-
-		JSONArray list = new JSONArray();
-		for (Object tag : tags) {
-			list.add(tag);
+		JSONArray mentionedsList = new JSONArray();
+		for (Object mentiond : list) {
+			mentionedsList.add(mentiond);
 		}
-		obj.put("Tags", list);
-		String fileName = "SecurityResultGitHub-" + ts + ".json";
+
+//		JSONArray hashTagsList = new JSONArray();
+//		for (Object hashTag : hashTags) {
+//			hashTagsList.add(hashTag);
+//		}
+
+//		hashTagsObj.put("HashTags", hashTagsList);
+//		mentionedsObj.put("Mentioneds", mentionedsList);
+		obj.put(header, mentionedsList);
+		String fileName = "DonaldTrumpOnTwittr.json";
 
 		// Calling the actual file creation method
 		writeToJSON(obj, fileName);
+//		writeToJSON(mentionedsObj, fileName);
 
 	}
 

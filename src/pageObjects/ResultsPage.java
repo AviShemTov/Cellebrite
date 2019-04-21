@@ -8,9 +8,12 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import Runs.JsonAction;
+
 public class ResultsPage extends BasePage {
 	WebElement resultLine;
 	int i = 1;
+	JsonAction ja = new JsonAction();
 	List<String> linesData = new ArrayList<>();
 	
 	public ResultsPage(WebDriver driver) {
@@ -31,12 +34,14 @@ public class ResultsPage extends BasePage {
 			
 			//If the result line we scraped has # in it, we will call the method to take it's text and print it as Hash Tags.
 			if (contains(resultLine.getText(), '#') == true) {
-				getHashTagsList(i);
+				ja.collectForJSON(getHashTagsList(i), "hashTags: ");
+//				getHashTagsList(i);
 			}
 			
 			//If the result line we scraped has @ in it, we will call the method to take it's text and print it as Mentions.
 			if (contains(resultLine.getText(), '@') == true) {
-				getMentionsList(i);
+				ja.collectForJSON(getMentionsList(i), "Mentioneds: ");
+//				getMentionsList(i);
 			}
 			
 			
@@ -62,14 +67,14 @@ public class ResultsPage extends BasePage {
 	
 	public List<String> getMentionsList(int i) {
 
-		String mentionPath = ".//*[@id='stream-items-id']/li[" + i + "]/div[1]/div[2]/div[2]/p/a";
+		String mentionPath = ".//*[@id='stream-items-id']/li[" + i + "]/div[1]/div[2]/div[2]/p/a/b";
 
 		ArrayList<String> mentionsList = new ArrayList<>();
 		List<WebElement> mentions = driver.findElements(By.xpath(mentionPath));
 		//System.out.println(mentions.size());
 
 		for (WebElement mention : mentions) {
-			System.out.println("Mention: " + mention.getText());
+			System.out.println("Mention: @" + mention.getText());
 			mentionsList.add(mention.getText());
 		}
 		return mentionsList;
@@ -78,14 +83,14 @@ public class ResultsPage extends BasePage {
 	
 	public List<String> getHashTagsList(int i) {
 
-		String hashTagPath = ".//*[@id='stream-items-id']/li[" + i + "]/div[1]/div[2]/div[2]/p/a";
+		String hashTagPath = ".//*[@id='stream-items-id']/li[" + i + "]/div[1]/div[2]/div[2]/p/a/b";
 
 		ArrayList<String> hashTagsList = new ArrayList<>();
 		List<WebElement> hashTags = driver.findElements(By.xpath(hashTagPath));
 		//System.out.println(hashTags.size());
 
 		for (WebElement hashTag : hashTags) {
-			System.out.println("HashTag: " + hashTag.getText());
+			System.out.println("HashTag: #" + hashTag.getText());
 			hashTagsList.add(hashTag.getText());
 		}
 		return hashTagsList;

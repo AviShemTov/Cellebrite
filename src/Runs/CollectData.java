@@ -33,7 +33,9 @@ public class CollectData {
 		ResultsPage rp = new ResultsPage(driver);
 		rp.getResultsLinesData();
 		
-		//Scraps HashTags
+		//Prints Scraped HashTags && Mentioneds to JSON
+		
+		
 		//driver.close();
 		
 		
