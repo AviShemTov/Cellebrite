@@ -17,6 +17,7 @@ public class LoginPage extends BasePage{
 		logInBtn = driver.findElement(By.xpath(".//*[@id='doc']/div/div[1]/div[1]/div[1]/form/input[1]"));
 	}
 	
+	//Login method
 	public void LogInTo(String userName, String password) {
 		sendText(userNameField, userName);
 		sendText(passwordField, password);

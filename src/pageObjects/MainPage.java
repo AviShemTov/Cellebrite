@@ -14,7 +14,7 @@ public class MainPage extends BasePage {
 		searchField = driver.findElement(By.cssSelector("#search-query"));
 	}
 
-	// Sending Security to the search and submit
+	// Performing the search for the latest Donald's Twittes
 	public void doSearch(String fieldText) {
 		sendText(searchField, fieldText);
 		searchField.submit();
